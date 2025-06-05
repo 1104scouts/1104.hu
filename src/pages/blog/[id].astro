@@ -48,7 +48,7 @@ const formattedDate = blogPost.data.date.toLocaleDateString('hu-HU', {
 
             <!-- Featured Image -->
             <div class="featured-image">
-                <img src={blogPost.data.images[0] || "/src/assets/placeholder.jpg"} alt={blogPost.data.title}/>
+                <img src={blogPost.data.images[0] || "/assets/placeholder.jpg"} alt={blogPost.data.title}/>
             </div>
 
             <div class="post-content">
@@ -126,7 +126,7 @@ const formattedDate = blogPost.data.date.toLocaleDateString('hu-HU', {
     }
 
     .post-date::before {
-        content: url("/src/assets/icons/date.svg");
+        content: url("/assets/icons/date.svg");
     }
 
     .post-authors {
@@ -137,12 +137,12 @@ const formattedDate = blogPost.data.date.toLocaleDateString('hu-HU', {
     }
 
     .post-author::before {
-        content: url("/src/assets/icons/author.svg");
+        content: url("/assets/icons/author.svg");
         align-self: center;
     }
 
     .post-photography::before {
-        content: url("/src/assets/icons/photography.svg");
+        content: url("/assets/icons/photography.svg");
     }
 
     /* Images */

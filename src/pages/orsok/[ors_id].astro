@@ -13,23 +13,13 @@ if(!patrol) {
 
 const leader_imgs = await Promise.all(await patrol.data.leaders.map(async leader => {
     return await getImage({
-        src: `/src/assets/orsok/${patrolId}/${leader.image}`,
+        src: `/assets/orsok/${patrolId}/${leader.image}`,
         width: 120,
         height: 120,
         format: 'jpg',
         quality: 80,
     });
 }));
-
-
-const main_photo = await getImage({
-    src: `/src/assets/orsok/${patrolId}/${patrol.data.main_photo}`,
-    width: 900,
-    height: 400,
-    format: 'jpg',
-    quality: 80,
-});
-
 ---
 
 <Layout title={patrol.data.name} activeMenu="">
@@ -69,7 +59,7 @@ const main_photo = await getImage({
 
             <!-- Main Patrol Photo -->
             <div class="main-photo-container">
-                <img src={`/src/assets/orsok/${patrol.id}/patrol.jpg`} class="main-photo"/>
+                <img src={`/assets/orsok/${patrol.id}/patrol.jpg`} class="main-photo"/>
             </div>
         </div>
     </div>

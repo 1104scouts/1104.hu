@@ -1,7 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import {Image} from 'astro:assets';
-import welcomeImg from '../assets/welcome.JPG';
 import {getCollection} from 'astro:content';
 
 const blogs = (await getCollection('blog')).slice(0, 1);
@@ -13,7 +11,7 @@ const blogs = (await getCollection('blog')).slice(0, 1);
         <div class="hero-content">
             <h1 class="hero-title">1104. számú II. János Pál cserkészcsapat</h1>
             <div class="hero-image">
-                <Image src={welcomeImg} alt="Cserkészcsapat csoportkép"/>
+                <img src="/assets/welcome.jpg" alt="Cserkészcsapat csoportkép"/>
             </div>
         </div>
     </section>

@@ -10,7 +10,7 @@ export interface Props {
 const { id, name, placeholder} = Astro.props;
 
 const opt_img = await getImage({
-    src: (placeholder) ? '/src/assets/placeholder.jpg' : `/src/assets/orsok/${id}/patrol.jpg`,
+    src: (placeholder) ? '/assets/placeholder.jpg' : `/assets/orsok/${id}/patrol.jpg`,
     width: 410,
     height: 262,
     format: 'jpg',

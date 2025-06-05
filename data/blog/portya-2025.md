@@ -6,10 +6,10 @@ excerpt: A csapat éves tavaszi elvonulása, ezúttal a vad prérin.
 author: Bodnár Bulcsú
 photography: Horváth Péter
 images: 
-  - /src/assets/blog/portya-2025/featured.jpg
-  - /src/assets/blog/portya-2025/blog.jpg
-  - /src/assets/blog/portya-2025/1.jpg
-  - /src/assets/blog/portya-2025/2.jpg
+  - /assets/blog/portya-2025/featured.jpg
+  - /assets/blog/portya-2025/blog.jpg
+  - /assets/blog/portya-2025/1.jpg
+  - /assets/blog/portya-2025/2.jpg
 album: https://drive.google.com/drive/folders/1jvSKmpoHwytOGCcOzkX52s069Ez_KYGa?usp=sharing 
 link: /blog/portya-2025
 ---
