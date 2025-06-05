@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kapcsolat" activeMenu="kapcsolat">
+    <div class="contact-container">
+        <div class="contact-info">
+            <div class="contact-section">
+                <h2 class="contact-label">E-Mail Címünk:</h2>
+                <p class="contact-value email">bodnarbulcsu@gmail.com</p>
+            </div>
+
+            <div class="contact-section">
+                <h2 class="contact-label">Székhelyünk:</h2>
+                <p class="contact-value address">
+                    2051 Biatorbágy,<br />
+                    Szentháromság tér 3.
+                </p>
+            </div>
+        </div>
+
+        <div id="map-container">
+            <div class="map-placeholder">
+            </div>
+        </div>
+    </div>
+</Layout>
+
+
+<script>
+    var map = L.map('map-container').setView([47.4662, 18.8082], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    var icon = L.icon({
+        iconUrl: '/src/assets/marker.png',
+        iconSize:     [44, 50], // size of the icon
+        iconAnchor:   [20, 50], // point of the icon which will correspond to marker's location
+        popupAnchor:  [0, -50] // point from which the popup should open relative to the iconAnchor
+    });
+
+    L.marker([47.4662, 18.8082], {icon: icon}).addTo(map);
+</script>
+
+<style>
+    .contact-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .contact-info {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .contact-section {
+        margin-bottom: 2rem;
+    }
+
+    .contact-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .contact-label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .contact-value {
+        font-size: 1.2rem;
+        color: #555;
+        margin: 0;
+        line-height: 1.6;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .email {
+        color: #1E87BD;
+        text-decoration: none;
+    }
+
+    .email:hover {
+        text-decoration: underline;
+    }
+
+    .address {
+        font-weight: 500;
+    }
+
+    #map-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .map-placeholder {
+        width: 100%;
+        height: 400px;
+        background: linear-gradient(135deg, #a8e6cf 0%, #88d8a3 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2d5a3d;
+        font-size: 1.2rem;
+        font-weight: 600;
+        font-family: 'Sora', sans-serif;
+        position: relative;
+    }
+
+    .map-placeholder::before {
+        content: "Térkép betöltése...";
+    }
+
+    /* Add some map-like styling to the placeholder */
+    .map-placeholder::after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .contact-container {
+            padding: 1rem;
+        }
+
+        .contact-info {
+            margin-bottom: 2rem;
+        }
+
+        .contact-label {
+            font-size: 1.2rem;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+        }
+
+        .map-placeholder {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .contact-label {
+            font-size: 1.1rem;
+        }
+
+        .contact-value {
+            font-size: 1rem;
+        }
+
+        .map-placeholder {
+            height: 250px;
+        }
+
+        .map-placeholder::before {
+            font-size: 1rem;
+        }
+    }
+</style>

@@ -1,0 +1,28 @@
+---
+import type { BlogType } from '../blog_type';
+import {BlogTypeColor} from "../blog_type";
+
+interface Props {
+    type: BlogType
+}
+
+const { type } = Astro.props;
+---
+
+<span class="blog-type" style={`background-color: ${BlogTypeColor[type]};`}>
+      {type}
+</span>
+
+
+<style>
+    .blog-type {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-family: 'Sora', sans-serif;
+    }
+</style>

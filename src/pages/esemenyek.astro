@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Események" activeMenu="események">
+    <div class="events-container">
+        <div class="calendar-container">
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FBudapest&showPrint=0&showTabs=0&showCalendars=0&showTz=0&src=MjU4MmViODViMzBlYmRiYWJmZWY1YzU3MDdhMTRhYjRmMWVjMWI0ZDIzNzlmMDY1NGJhZTUzMjkxODcyZjU2ZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23616161" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .events-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .page-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #333;
+        text-align: center;
+        margin-bottom: 3rem;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .calendar-container {
+        background: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .events-container {
+            padding: 1rem;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+    }
+</style>

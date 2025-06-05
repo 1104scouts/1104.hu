@@ -1,0 +1,109 @@
+[
+  {
+    "id": "planktonok",
+    "name": "Planktonok",
+    "foundation": 2023,
+    "category": "Kósza",
+    "members": 12,
+    "leaders": [
+      {
+        "name": "Bodnár Búlcsú csst.",
+        "image": "bustu.jpg"
+      },
+      {
+        "name": "Bodnár Bíbor",
+        "image": "bibi.jpg"
+      }
+    ]
+  },
+  {
+    "id": "gorillak",
+    "name": "Gorillák",
+    "leaders": [
+      {
+        "name": "Kis Zelma",
+        "image": "zelma.jpg"
+      }
+    ]
+  },
+  {
+    "id": "kaktuszok",
+    "name": "Kaktuszok",
+    "foundation": 2018,
+    "category": "Cserkész",
+    "members": 7,
+    "leaders": [
+      {
+        "name": "Kis Zelma",
+        "image": "zelma.jpg"
+      }
+    ]
+  },
+  {
+    "id": "gorillak",
+    "name": "Gorillák",
+    "foundation": 2021,
+    "category": "Cserkész",
+    "members": 7,
+    "leaders": [
+      {
+        "name": "Bodnár Álmos",
+        "image": "babi.jpg"
+      }
+    ]
+  },
+  {
+    "id": "kardviragok",
+    "name": "Kardvirágok",
+    "foundation": 2022,
+    "placeholder": true,
+    "category": "Kiscserkész",
+    "members": 7,
+    "leaders": [
+      {
+        "name": "Bodnár Boróka",
+        "image": "pityu.jpg"
+      }
+    ]
+  },
+  {
+    "id": "hiuzok",
+    "name": "Hiúzok",
+    "foundation": 2021,
+    "category": "Kiscserkész",
+    "members": 8,
+    "leaders": [
+      {
+        "name": "Rádics Koppány",
+        "image": "kopi.jpg"
+      }
+    ]
+  },
+  {
+    "id": "afonyak",
+    "name": "Áfonyák",
+    "foundation": 2023,
+    "category": "Kiscserkész",
+    "members": 7,
+    "leaders": [
+      {
+        "name": "Szlávik Emese",
+        "image": "emi.jpg"
+      }
+    ]
+  },
+  {
+    "id": "fekete-jaguarok",
+    "name": "Fekete Jaguárok",
+    "foundation": 2024,
+    "category": "Jelölt",
+    "placeholder": true,
+    "members": 7,
+    "leaders": [
+      {
+        "name": "Hajdú Lőrinc",
+        "image": "leclerc.jpg"
+      }
+    ]
+  }
+]

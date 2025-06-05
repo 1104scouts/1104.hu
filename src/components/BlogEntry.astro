@@ -1,0 +1,185 @@
+---
+import { getImage } from 'astro:assets';
+import type { BlogType } from '../blog_type';
+import placeholderImage from '../assets/placeholder.jpg';
+import BlogFlag from './BlogFlag.astro';
+
+export interface Props {
+    title: string;
+    date: Date;
+    excerpt: string;
+    link: string;
+    type: BlogType;
+    image?: string;
+}
+
+const { title, date, excerpt, link, type, image } = Astro.props;
+
+// Get optimized image
+const optimizedImage = await getImage({
+    src: image || placeholderImage,
+    width: 200,
+    height: 150,
+    format: 'webp'
+});
+
+// Format date
+const formattedDate = date.toLocaleDateString('hu-HU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+}).replace(/\//g, '.');
+
+---
+
+<article class="blog-entry">
+    <div class="blog-content">
+        <h2 class="blog-title">{title}</h2>
+        <time class="blog-date">{formattedDate}</time>
+        <BlogFlag type={type} />
+        <p class="blog-excerpt">{excerpt}</p>
+        <a href={link} class="blog-link">
+            Olvasd tovább →
+        </a>
+    </div>
+    <div class="blog-image">
+        <img
+                src={optimizedImage.src || "/placeholder.svg"}
+                alt={title}
+                width={optimizedImage.attributes.width}
+                height={optimizedImage.attributes.height}
+        />
+    </div>
+</article>
+
+<style>
+    .blog-entry {
+        display: flex;
+        gap: 3rem;
+        align-items: flex-start;
+        padding: 2.5rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .blog-entry:last-child {
+        border-bottom: none;
+    }
+
+    .blog-content {
+        flex: 1;
+        display: block;
+        align-content: start;
+        text-align: start;
+        max-width: 500px;
+    }
+
+    .blog-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #000;
+        margin: 0 0 0.5rem 0;
+        font-family: 'Sora', sans-serif;
+        line-height: 1.1;
+    }
+
+    .blog-date {
+        display: block;
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 1rem;
+        font-family: 'Sora', sans-serif;
+        font-weight: 400;
+    }
+
+    .blog-type {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .blog-excerpt {
+        font-size: 1.1rem;
+        color: #333;
+        line-height: 1.5;
+        margin-bottom: 1.25rem;
+        font-family: 'Sora', sans-serif;
+        font-weight: 400;
+    }
+
+    .blog-link {
+        color: #000;
+        text-decoration: underline;
+        font-weight: 600;
+        font-size: 1.1rem;
+        font-family: 'Sora', sans-serif;
+        transition: color 0.3s ease;
+    }
+
+    .blog-link:hover {
+        color: #1E87BD;
+    }
+
+    .blog-image {
+        flex-shrink: 0;
+        width: 280px;
+        height: 180px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .blog-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .image-placeholder {
+        width: 100%;
+        height: 100%;
+        background: #D2691E;
+        border-radius: 12px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .blog-entry {
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 2rem 0;
+        }
+
+        .blog-content {
+            max-width: none;
+        }
+
+        .blog-title {
+            font-size: 2rem;
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            order: -1;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .blog-entry {
+            padding: 1.5rem 0;
+        }
+
+        .blog-title {
+            font-size: 1.8rem;
+        }
+
+        .blog-image {
+            height: 180px;
+        }
+    }
+</style>

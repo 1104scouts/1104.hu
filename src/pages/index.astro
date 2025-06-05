@@ -1,11 +1,270 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import {Image} from 'astro:assets';
+import welcomeImg from '../assets/welcome.JPG';
+import {getCollection} from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const blogs = (await getCollection('blog')).slice(0, 1);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">1104. számú II. János Pál cserkészcsapat</h1>
+            <div class="hero-image">
+                <Image src={welcomeImg} alt="Cserkészcsapat csoportkép"/>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="introduction">
+        <div class="container">
+            <h2 class="section-title">Bemutatkozás</h2>
+            <div class="intro-text">
+                <p>
+                    A cserkészet önkéntes, vallásos, pártpolitikától független
+                    ifjúsági mozgalom, amely nyitott mindenki számára.
+                    <br/>
+                    Célunk, hogy a társadalmat olyan életrevaló, elkötelezett,
+                    felelős, egészséges polgárok alkossák, akiknek fontos, hogy
+                    önmaguk folyamatos nevelése által az Isten felé
+                    növekedjenek.<br/>
+                    Biatorbágyon 2015 óta vagyunk jelen a cserkészet sajátos
+                    módszerét kínálva mindenkinek.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news">
+        <div class="container">
+            <h2 class="section-title">Hírek</h2>
+            <div class="news-carousel">
+                <button class="carousel-btn prev" aria-label="Előző">‹</button>
+                <div class="news-items">
+                    {blogs.map((blog) => (
+                            <div class="news-item" key={blog.id}>
+                                <a href={blog.data.link}>
+                                    <div class="news-img">
+                                        <img src={blog.data.images[0]}/>
+                                    </div>
+                                    <h3 class="news-title">{blog.data.title}</h3>
+                                </a>
+                            </div>
+                    ))}
+                </div>
+                <button class="carousel-btn next" aria-label="Következő">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events">
+        <div class="container">
+            <h2 class="section-title">Események</h2>
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FBudapest&showPrint=0&showTabs=0&showCalendars=0&showTz=0&src=MjU4MmViODViMzBlYmRiYWJmZWY1YzU3MDdhMTRhYjRmMWVjMWI0ZDIzNzlmMDY1NGJhZTUzMjkxODcyZjU2ZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23616161"
+                    style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        background: white;
+        padding: 0;
+        margin-top: -2rem;
+        width: 100%;
+    }
+
+    .hero-content {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-weight: 800;
+        font-size: 64px;
+        color: #333;
+        margin-bottom: 2rem;
+        padding: 2rem 2rem 0;
+    }
+
+    .hero-image {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Introduction Section */
+    .introduction {
+        background: #f8f9fa;
+        padding: 4rem 0;
+    }
+
+    .section-title {
+        font-size: 54px;
+        font-weight: 800;
+        color: #1E87BD;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .intro-text {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .intro-text p {
+        font-size: 32px;
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+
+    /* News Section */
+    .news {
+        background: white;
+        padding: 4rem 0;
+    }
+
+    .news-carousel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .carousel-btn {
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #666;
+        cursor: pointer;
+        padding: 1rem;
+        transition: color 0.3s ease;
+    }
+
+    .carousel-btn:hover {
+        color: #1E87BD;
+    }
+
+    .news-items {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .news-item a, .news-item a:hover, .news-item a:visited {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .news-item {
+        text-align: center;
+    }
+
+    .news-img {
+        width: 400px;
+        height: 270px;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .news-img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .news-title {
+        font-size: 2.4rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Events Section */
+    .events {
+        padding: 4rem 0;
+    }
+
+    .calendar-placeholder {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 400px;
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .calendar-placeholder::before {
+        content: "Naptár betöltése...";
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 1.8rem;
+            padding: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+        }
+
+        .intro-text p {
+            font-size: 1rem;
+        }
+
+        .news-carousel {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .news-items {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .news-placeholder {
+            width: 280px;
+            height: 160px;
+        }
+
+        .carousel-btn {
+            display: none;
+        }
+
+        .container {
+            padding: 0 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 1.5rem;
+        }
+
+        .news-placeholder {
+            width: 100%;
+            max-width: 280px;
+        }
+    }
+</style>

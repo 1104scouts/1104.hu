@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogEntry from '../../components/BlogEntry.astro';
+import { getCollection } from 'astro:content';
+
+const blogEntries = await getCollection('blog');
+---
+
+<Layout title="Blog" activeMenu="blog">
+    <div class="blog-container">
+        <div class="blog-entries">
+            {blogEntries.map((entry) => (
+                    <BlogEntry
+                            title={entry.data.title}
+                            date={entry.data.date}
+                            excerpt={entry.data.excerpt}
+                            link={entry.data.link}
+                            type={entry.data.type}
+                            image={entry.data.images[0]}
+                    />
+            ))}
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .blog-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .blog-entries {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .blog-container {
+            padding: 1rem;
+        }
+
+        .blog-entries {
+            padding: 1rem;
+        }
+    }
+</style>

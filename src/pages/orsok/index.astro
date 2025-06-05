@@ -1,0 +1,91 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PatrolCard from '../../components/PatrolCard.astro';
+
+import { getCollection } from "astro:content";
+
+const patrols = await getCollection('patrols');
+
+---
+
+<Layout title="Őrsök" activeMenu="őrsök">
+    <div class="patrols-container">
+        <div class="patrols-grid">
+            {patrols.map((patrol) => (
+                    <div class="patrol-item">
+                        <PatrolCard id={patrol.data.id} name={patrol.data.name}
+                                    placeholder={patrol.data.placeholder}/>
+                    </div>
+            ))}
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .patrols-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .page-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #333;
+        text-align: center;
+        margin-bottom: 3rem;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .patrols-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .patrol-item {
+        width: 100%;
+    }
+
+    /* Center the last item if it's odd */
+    .patrol-item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .patrols-container {
+            padding: 1rem;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .patrols-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 400px;
+        }
+
+        .patrol-item:last-child:nth-child(odd) {
+            grid-column: 1;
+            max-width: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .patrols-grid {
+            gap: 1.5rem;
+        }
+    }
+</style>

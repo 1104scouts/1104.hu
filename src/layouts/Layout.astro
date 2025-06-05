@@ -1,22 +1,281 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
+---
+export interface Props {
+	title: string|null;
+	activeMenu?: string;
+}
+
+const { title, activeMenu } = Astro.props;
+
+const menuItems = [
+	//{ name: 'Rólunk', url: '/rolunk' },
+	{ name: 'Őrsök', url: '/orsok' },
+	{ name: 'Blog', url: '/blog' },
+	{ name: 'Események', url: '/esemenyek' },
+	{ name: 'Kapcsolat', url: '/kapcsolat' }
+];
+---
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+	{activeMenu == "kapcsolat" && (
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	)}
+
+	<title>{title}</title>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+	<div class="header-container">
+		<div class="logo">
+	<a href="/"> <img src="/src/assets/branding/logo.png" alt="Logo" /></a>
+		</div>
+		<nav class="nav">
+			{menuItems.map((item) => (
+				<a
+					href={item.url}
+					class={`nav-link ${activeMenu === item.name.toLowerCase() ? 'active' : ''}`}
+				>
+					{item.name}
+				</a>
+			))}
+		</nav>
+	</div>
+</header>
+
+<!-- Body -->
+<main class="main">
+	<div class="main-container">
+			{(activeMenu != null) && <h1 class="page-title">{title}</h1> }
 		<slot />
-	</body>
+	</div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+	<div class="footer-border"></div>
+	<div class="footer-container">
+		<div class="footer-left">
+			<div class="footer-logo">
+				<img src="/src/assets/branding/mcssz.svg" alt="MCSSZ Logo" />
+			</div>
+			<div class="footer-text">
+				<p>A II. János Pál cserkészcsapat<br />a Magyar Cserkészszövetség<br />tagja</p>
+				<p class="copyright">© II. János Pál Cserkészcsapat, 2025</p>
+			</div>
+		</div>
+		<div class="footer-right">
+			<h3>OLDALAK</h3>
+			<div class="footer-links">
+				{menuItems.map((item) => (
+					<a href={item.url}>{item.name}</a>
+				))}
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
 </html>
 
 <style>
-	html,
-	body {
+	* {
 		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: Arial, sans-serif;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Header Styles */
+	.header {
+		background: white;
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 1rem 0;
+	}
+
+	.header-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 2rem;
+	}
+
+	.logo img {
+		height: 60px;
+		width: auto;
+	}
+
+	.nav {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.nav-link {
+		text-decoration: none;
+		color: #333;
+		font-weight: 800;
+		font-size: 24px;
+		transition: color 0.3s ease;
+	}
+
+	.nav-link:hover {
+		color: #1E87BD;
+	}
+
+	.nav-link.active {
+		color: #1E87BD;
+	}
+
+	/* Main Content Styles */
+	.main {
+		flex: 1;
+		z-index: 0;
+		background: #FFFFFF;
+	}
+
+	.main-container {
+		max-width: 100%;
+		margin-top: 100px;
+		padding: 0 2rem;
+		text-align: center;
+	}
+
+	.page-title {
+		font-size: 64px;
+		color: #333;
+		margin-bottom: 2rem;
+		font-weight: 800;
+	}
+
+	/* Footer Styles */
+	.footer {
+		background: #FFFFFF00;
+		background: linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgba(0,0,0,0) 7%, rgba(108, 117, 125, 1) 7%, rgba(108, 117, 125, 1) 100%);
+		color: white;
+		z-index: 100;
+		bottom: 0;
+		position: relative;
+	}
+
+	.footer-border {
 		width: 100%;
-		height: 100%;
+		height: 80px;
+		position: relative;
+		overflow: hidden;
+		background: url("/src/assets/branding/tie.svg") repeat-x;
+	}
+
+
+	.footer-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 2rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+
+	.footer-left {
+		display: block;
+		gap: 2rem;
+		align-items: flex-start;
+	}
+
+	.footer-logo img {
+		height: 125px;
+		width: auto;
+		font-weight: 200;
+	}
+
+	.footer-text p {
+		line-height: 1.6;
+		margin-bottom: 1rem;
+	}
+
+	.copyright {
+		font-size: 0.9rem;
+		opacity: 0.8;
+	}
+
+	.footer-right {
+		text-align: right;
+	}
+
+	.footer-right h3 {
+		font-size: 1.2rem;
+		margin-bottom: 1rem;
+		border-bottom: 2px solid white;
+		padding-bottom: 0.5rem;
+	}
+
+	.footer-links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
+		font-weight: bold;
+		font-size: 24px;
+	}
+
+	.footer-links a {
+		color: white;
+		text-decoration: none;
+	}
+
+	/* Responsive Design */
+	@media (max-width: 768px) {
+		.header-container {
+			flex-direction: column;
+			gap: 1rem;
+			padding: 0 1rem;
+		}
+
+		.nav {
+			gap: 1rem;
+		}
+
+		.nav-link {
+			font-size: 1rem;
+		}
+
+		.main-container {
+			padding: 0 1rem;
+		}
+
+		.page-title {
+			font-size: 2rem;
+		}
+
+		.footer-container {
+			flex-direction: column;
+			gap: 2rem;
+			padding: 1rem;
+		}
+
+		.footer-left {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.footer-right {
+			text-align: left;
+		}
 	}
 </style>

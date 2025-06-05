@@ -1,0 +1,125 @@
+---
+import {getImage} from 'astro:assets';
+
+export interface Props {
+    id: string,
+    name: string;
+    placeholder: boolean;
+}
+
+const { id, name, placeholder} = Astro.props;
+
+const opt_img = await getImage({
+    src: (placeholder) ? '/src/assets/placeholder.jpg' : `/src/assets/orsok/${id}/patrol.jpg`,
+    width: 410,
+    height: 262,
+    format: 'jpg',
+    quality: 80,
+});
+
+---
+
+<a href={(!placeholder) ? `/orsok/${id}` : ""} class="patrol-card">
+    <div class="card-container">
+        <div class="image-container">
+            <img src={opt_img.src} alt={name}
+                 width="410px" height="262px"
+            />
+            {!placeholder && (<div class="overlay">
+                <span class="overlay-text">Részletek</span>
+            </div>)}
+        </div>
+        <h3 class="patrol-name">{name}</h3>
+    </div>
+</a>
+
+<style>
+    .patrol-card {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .patrol-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-container {
+        text-align: center;
+    }
+
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .placeholder-image {
+        width: 100%;
+        height: 100%;
+        background: #D2691E;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(30, 135, 189, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .overlay-text {
+        color: white;
+        font-size: 36px;
+        font-weight: 800;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .image-container:hover .overlay {
+        transform: translateY(0);
+    }
+
+    .patrol-name {
+        font-size: 32px;
+        font-weight: 800;
+        color: #333;
+        margin: 0;
+        font-family: 'Sora', sans-serif;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .image-container {
+            height: 150px;
+        }
+
+        .patrol-name {
+            font-size: 1.1rem;
+        }
+
+        .overlay-text {
+            font-size: 1rem;
+        }
+    }
+</style>

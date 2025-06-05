@@ -1,0 +1,251 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
+import {getEntry} from 'astro:content';
+
+const patrolId = Astro.params.ors_id;
+
+const patrol = await getEntry('patrols', patrolId);
+
+if(!patrol) {
+    throw new Error(`Patrol with ID ${patrolId} not found.`);
+}
+
+const leader_imgs = await Promise.all(await patrol.data.leaders.map(async leader => {
+    return await getImage({
+        src: `/src/assets/orsok/${patrolId}/${leader.image}`,
+        width: 120,
+        height: 120,
+        format: 'jpg',
+        quality: 80,
+    });
+}));
+
+
+const main_photo = await getImage({
+    src: `/src/assets/orsok/${patrolId}/${patrol.data.main_photo}`,
+    width: 900,
+    height: 400,
+    format: 'jpg',
+    quality: 80,
+});
+
+---
+
+<Layout title={patrol.data.name} activeMenu="">
+    <div class="patrol-detail">
+        <div class="container">
+            <!-- Patrol Info Section -->
+            <div class="patrol-info-section">
+                <!-- Profile Images -->
+                <div class="profile-images">
+                    {leader_imgs.map((img, index, _) => (
+                        <div class="profile-image" key={index}>
+                            <img src={img.src} alt={`Őrsvezető ${index + 1}`} width="120" height="120" />
+                        </div>
+                    ))}
+                </div>
+
+                <!-- Patrol Details -->
+                <div class="patrol-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Alakulás Éve:</span>
+                        <span class="detail-value">{patrol.data.foundation}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Korosztály:</span>
+                        <span class="detail-value">{patrol.data.category}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tagok Száma:</span>
+                        <span class="detail-value">{patrol.data.members}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Őrsvezetők:</span>
+                        <span class="detail-value">{patrol.data.leaders.map(leader => leader.name).join(", ").replace(".,", ";")}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Patrol Photo -->
+            <div class="main-photo-container">
+                <img src={`/src/assets/orsok/${patrol.id}/patrol.jpg`} class="main-photo"/>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .patrol-detail {
+        background: white;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .patrol-info-section {
+        display: flex;
+        align-items: flex-start;
+        gap: 4rem;
+        margin-bottom: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile-images {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .profile-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .placeholder-profile {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .patrol-details {
+        flex: 1;
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .detail-row:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+        font-family: 'Sora', sans-serif;
+        min-width: 140px;
+    }
+
+    .detail-value {
+        font-size: 1.1rem;
+        color: #555;
+        text-align: right;
+        line-height: 1.4;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .main-photo-container {
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-photo {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .photo-placeholder::before {
+        content: "Őrs csoportkép";
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+
+        .patrol-title {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .patrol-info-section {
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .profile-images {
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+        }
+
+        .patrol-details {
+            width: 100%;
+            padding: 1.5rem;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .detail-label {
+            min-width: auto;
+        }
+
+        .detail-value {
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .patrol-title {
+            font-size: 1.8rem;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+        }
+
+        .patrol-details {
+            padding: 1rem;
+        }
+
+        .detail-label,
+        .detail-value {
+            font-size: 1rem;
+        }
+    }
+</style>

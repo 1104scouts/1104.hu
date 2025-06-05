@@ -1,0 +1,251 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import {getEntry, render} from "astro:content";
+import BlogFlag from '../../components/BlogFlag.astro';
+
+// Get the id from the URL params
+const {id} = Astro.params;
+
+const blogPost = await getEntry('blog', id);
+console.log(blogPost)
+const {Content} = await render(blogPost);
+
+const gallery = blogPost.data.images.slice(-3) || [];
+const galleryLength = gallery.length;
+
+// Format date
+const formattedDate = blogPost.data.date.toLocaleDateString('hu-HU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+}).replace(/\//g, '.');
+---
+
+<Layout title={null} activeMenu="">
+    <article class="blog-post">
+        <div class="container">
+            <!-- Blog Post Header -->
+            <header class="post-header">
+                <BlogFlag type={blogPost.data.type}/>
+                <h1 class="post-title">{blogPost.data.title}</h1>
+                <div class="post-info">
+                   <div class="post-meta">
+                       <span class="post-date"></span>
+                       <span class="post-metadata">{formattedDate}</span>
+                   </div>
+                    <div class="post-authors">
+                        <div class="post-meta">
+                            <span class="post-author"></span>
+                            <span class="post-metadata">{blogPost.data.author}</span>
+                        </div>
+                        <div class="post-meta">
+                            <span class="post-photography"></span>
+                            <span class="post-metadata">{blogPost.data.photography}</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Featured Image -->
+            <div class="featured-image">
+                <img src={blogPost.data.images[0] || "/src/assets/placeholder.jpg"} alt={blogPost.data.title}/>
+            </div>
+
+            <div class="post-content">
+                <Content/>
+            </div>
+
+            <!-- Gallery Section -->
+            <section class="gallery-section">
+                <h2 class="gallery-title">Galéria</h2>
+                <div class="gallery-grid">
+                    {gallery.map((image, index) => (
+                            <div class="gallery-item">
+                                <a href={blogPost.data.album} target="_blank" rel="noopener noreferrer">
+                                    <img src={image || "/placeholder.svg"} alt={`Gallery image ${index + 1}`}/>
+                                </a>
+                            </div>
+                    ))}
+                </div>
+            </section>
+        </div>
+    </article>
+</Layout>
+
+<style>
+    .blog-post {
+        background: white;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* Post Header */
+    .post-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .post-title {
+        font-size: 4rem;
+        font-weight: 700;
+        color: #000;
+        margin: 0 0 1rem 0;
+        font-family: 'Sora', sans-serif;
+        line-height: 1.1;
+    }
+
+    .post-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+        color: #1E87BD;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.1rem;
+    }
+
+    .post-metadata {
+        vertical-align: middle;
+        font-size: 1.2rem;
+    }
+
+    .post-date {
+        vertical-align: center;
+    }
+
+    .post-date::before {
+        content: url("/src/assets/icons/date.svg");
+    }
+
+    .post-authors {
+        display: flex;
+        gap: 2rem;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .post-author::before {
+        content: url("/src/assets/icons/author.svg");
+        align-self: center;
+    }
+
+    .post-photography::before {
+        content: url("/src/assets/icons/photography.svg");
+    }
+
+    /* Images */
+    .featured-image {
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .featured-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Content */
+    .post-content {
+        font-size: 24px;
+        line-height: 1.8;
+        color: #333;
+        text-align: justify;
+        font-family: 'Sora', sans-serif;
+        margin-bottom: 2rem;
+    }
+
+    .post-content p {
+        font-size: 2rem;
+        line-height: 1.8;
+        color: #333;
+        text-align: justify;
+        margin-bottom: 1.5rem;
+        font-family: 'Sora', sans-serif;
+    }
+
+    /* Gallery */
+    .gallery-section {
+        margin-top: 3rem;
+    }
+
+    .gallery-title {
+        font-size: 54px;
+        font-weight: 700;
+        color: #000;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .gallery-item {
+        border-radius: 8px;
+        overflow: hidden;
+        aspect-ratio: 1;
+        position: relative;
+    }
+
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img, .gallery-item:hover .more-overlay, .gallery-item:hover .overlay-text {
+        transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+
+        .post-title {
+            font-size: 2.2rem;
+        }
+
+        .post-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .gallery-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .post-title {
+            font-size: 1.8rem;
+        }
+
+        .post-content p {
+            font-size: 1rem;
+            text-align: left;
+        }
+    }
+</style>
